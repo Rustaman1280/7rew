@@ -5,7 +5,7 @@
 > Koleksi halaman HTML/JS interaktif dari anggota **Kelompok 7**.  
 > Satu repo, banyak gaya: retro arcade, playground fisika, mini OS, sampai majalah digital.
 
-[🌐 Kunjungi Website](https://roestmn.github.io/7rew)  •  [📂 Kode Sumber](./)
+[🌐 Kunjungi Website](https://7rew.vercel.app/)  •  [📂 Kode Sumber](./)
 
 
 ---

@@ -1,819 +1,250 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Riki — Code & Ball Playground</title>
-<style>
-:root{
-  --bg:#949597; --card:#0b1220; --accent:#ff6b6b; --muted:#9aa6b2;
-  --glass:rgba(255,255,255,0.04);
-  --text:#e6eef6; --high-contrast:0;
-}
-[data-contrast="high"]{
-  --bg:#000; --card:#111; --accent:#ffd43b; --muted:#cfcfcf; --text:#fff;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
-  background:linear-gradient(180deg,var(--bg), #071021 60%); color:var(--text); -webkit-font-smoothing:antialiased;
-}
-.app{max-width:1200px;margin:18px auto;padding:18px;display:grid;grid-template-columns:1fr;gap:16px}
-.header{display:flex;align-items:center;gap:12px}
-.logo{font-weight:700;font-size:18px}
-.tabs{display:flex;gap:8px}
-.tab{background:var(--glass);padding:10px 14px;border-radius:10px;cursor:pointer}
-.tab[aria-selected="true"]{outline:3px solid color-mix(in srgb,var(--accent) 70%, transparent);transform:translateY(-2px)}
-.row{display:flex;gap:16px;align-items:flex-start}
-.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border-radius:12px;padding:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
-.hero{display:flex;gap:18px;align-items:center;justify-content:space-between;padding:20px;border-radius:14px}
-.hero svg{width:140px;height:140px;display:block}
-.btn{background:var(--accent);padding:10px 14px;border-radius:10px;color:#041022;font-weight:700;border:none;cursor:pointer}
-.small{padding:6px 8px;font-size:13px;border-radius:8px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.lesson-card{padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent)}
-.controls{display:flex;flex-direction:column;gap:8px;padding:8px}
-.slider{display:flex;gap:8px;align-items:center}
-.slider input[type="range"]{flex:1}
-.canvas-wrap{position:relative;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:12px;overflow:hidden}
-#play-canvas{display:block;width:100%;height:480px;background:#071020}
-.overlay-ui{position:absolute;left:12px;top:12px;display:flex;gap:8px;flex-direction:column;z-index:10}
-.switch{display:inline-flex;align-items:center;gap:8px;padding:6px 8px;border-radius:8px;background:rgba(0,0,0,0.24)}
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
-.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:50}
-.modal[open]{display:flex}
-.modal .modal-content{background:var(--card);padding:12px;border-radius:10px;max-width:90%;max-height:90%;overflow:auto}
-.sticker{width:100px;height:100px;border-radius:12px;object-fit:cover;cursor:grab}
-.dropzone{border:2px dashed rgba(255,255,255,0.06);padding:12px;border-radius:8px;text-align:center}
-.target{position:absolute;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}
-.hint{font-size:13px;color:var(--muted)}
-.footer{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px}
-.controls-row{display:flex;gap:8px;flex-wrap:wrap}
-kbd{background:rgba(0,0,0,0.28);padding:4px 8px;border-radius:6px}
-.level-badge{background:rgba(255,255,255,0.04);padding:6px 8px;border-radius:8px}
-.theme-editor{display:flex;gap:8px;align-items:center}
-.hidden{display:none}
-.focus-ring:focus{outline:3px solid color-mix(in srgb,var(--accent) 50%, transparent)}
-/* small responsive */
-@media (max-width:700px){.hero{flex-direction:column;align-items:flex-start}.header{flex-direction:column;align-items:flex-start}}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Riki — Portofolio Interaktif</title>
+  <meta name="description" content="Situs personal Riki — portofolio, playground, dan cara menghubungi." />
+  <style>
+    :root{
+      --bg: linear-gradient(135deg,#0f172a 0%, #0b3d91 45%, #2b6cb0 100%);
+      --card: rgba(255,255,255,0.06);
+      --glass: rgba(255,255,255,0.06);
+      --accent: #ffd166;
+      --muted: rgba(255,255,255,0.75);
+      --glass-border: rgba(255,255,255,0.08);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--bg);color:white;-webkit-font-smoothing:antialiased}
+    a{color:var(--accent);text-decoration:none}
+    header{position:fixed;left:0;right:0;top:0;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;backdrop-filter: blur(6px);background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));border-bottom:1px solid var(--glass-border);z-index:50}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700}
+    .logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#ffd166,#ef476f);display:flex;align-items:center;justify-content:center;color:#082b4a;font-weight:800}
+    nav{display:flex;gap:14px;align-items:center}
+    nav a{padding:8px 10px;border-radius:8px;font-weight:600}
+    nav a:hover{background:rgba(255,255,255,0.03)}
+    main{padding-top:92px}
+
+    /* HERO */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:40px;align-items:center;padding:64px 20px}
+    .hero-left{max-width:760px}
+    .kicker{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.04);font-size:13px;margin-bottom:14px}
+    h1{font-size:44px;line-height:1.02;margin:0 0 14px}
+    .lead{color:var(--muted);line-height:1.6;margin-bottom:22px}
+    .ctas{display:flex;gap:12px}
+    .btn{background:linear-gradient(90deg,#ffd166,#f48c06);color:#072032;padding:12px 16px;border-radius:12px;font-weight:700;border:none;cursor:pointer}
+    .btn.secondary{background:transparent;border:1px solid var(--glass-border);color:var(--muted);color:var(--muted);padding:10px 14px}
+    .badge-row{display:flex;gap:10px;margin-top:18px}
+    .badge{padding:8px 10px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:600}
+
+    /* hero right card */
+    .card-visual{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));border:1px solid var(--glass-border);padding:20px;border-radius:14px;box-shadow:0 8px 40px rgba(2,6,23,0.6)}
+    .profile{display:flex;gap:14px;align-items:center}
+    .avatar{width:88px;height:88px;border-radius:14px;background:linear-gradient(135deg,#ffd166,#ef476f);display:flex;align-items:center;justify-content:center;font-weight:900;color:#082b4a}
+    .meta small{display:block;color:var(--muted)}
+    .stats{display:flex;gap:12px;margin-top:16px}
+    .stat{flex:1;background:rgba(0,0,0,0.1);padding:10px;border-radius:10px;text-align:center}
+
+    /* SECTIONS */
+    section{padding:64px 20px}
+    .container{max-width:1120px;margin:0 auto}
+    .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+    .card{background:var(--card);border-radius:12px;padding:18px;border:1px solid var(--glass-border)}
+
+    /* GALLERY */
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+    .gallery img{width:100%;height:140px;object-fit:cover;border-radius:10px;cursor:pointer;display:block}
+
+    /* contact */
+    form{display:grid;gap:12px}
+    input,textarea{background:transparent;border:1px solid var(--glass-border);padding:12px;border-radius:10px;color:white}
+    textarea{min-height:120px}
+    footer{padding:28px 20px;text-align:center;color:var(--muted)}
+
+    /* responsive */
+    @media (max-width:900px){.hero{grid-template-columns:1fr;padding:40px 16px}.hero-right{order:2}.hero-left{order:1}h1{font-size:34px}}
+
+    /* subtle animations */
+    .float{animation:floaty 6s ease-in-out infinite}
+    @keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
+
+    /* simple focus outlines */
+    a:focus,input:focus,button:focus{outline:3px solid rgba(255,209,102,0.12);outline-offset:3px}
+
+    /* small helpers */
+    .center{text-align:center}
+  </style>
 </head>
 <body>
-<div class="app" id="app">
-  <div class="header" role="banner">
-    <div class="logo" tabindex="0">Riki — Code & Ball Playground</div>
-    <nav class="tabs" role="tablist" aria-label="Main Tabs" id="tabs">
-      <button class="tab" role="tab" id="tab-home" aria-controls="panel-home" aria-selected="true">Home</button>
-      <button class="tab" role="tab" id="tab-play" aria-controls="panel-play" aria-selected="false">Playgr<span id="play-o">o</span>und</button>
-      <button class="tab" role="tab" id="tab-gallery" aria-controls="panel-gallery" aria-selected="false">Gallery</button>
-      <button class="tab" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false">About</button>
-    </nav>
-    <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
-      <button class="small" id="contrast-toggle" aria-pressed="false">High Contrast</button>
-      <div class="theme-editor card" style="padding:8px;border-radius:10px">
-        <label class="hint">Accent <input type="color" id="accent-picker" value="#ff6b6b"></label>
-        <label class="hint">Background <input type="color" id="bg-picker" value="#071021"></label>
-        <button class="small" id="save-preset">Save</button>
+  <header>
+    <div class="brand" aria-hidden>
+      <div class="logo">R</div>
+      <div>
+        <div style="font-weight:800">Riki</div>
+        <small style="color:var(--muted);font-weight:600">Portofolio & Playground</small>
       </div>
     </div>
-  </div>
+    <nav aria-label="Main navigation">
+      <a href="#home">Home</a>
+      <a href="#work">Karya</a>
+      <a href="#play">Playground</a>
+      <a href="#contact">Kontak</a>
+    </nav>
+  </header>
 
-  <!-- Panels -->
   <main>
-    <section id="panel-home" role="tabpanel" aria-labelledby="tab-home">
-      <div class="card hero">
-        <div>
-          <h1 style="margin:0 0 8px 0">Selamat datang di Ball Playground</h1>
-          <p class="hint">Gabungkan fisika, coding, dan eksperimen visual interaktif — buat, lempar, dan simpan sticker!</p>
-          <div style="margin-top:12px">
-            <button class="btn" id="cta-start">Mulai Bermain</button>
-            <button class="small" id="open-lessons">Lihat Lesson Cards</button>
-          </div>
+    <section id="home" class="hero container">
+      <div class="hero-left">
+        <div class="kicker">Hai, saya</div>
+        <h1>Riki — kreator, coder, dan pengembang ide.
+          <span style="display:block;font-size:18px;color:var(--muted);font-weight:600;margin-top:8px">Membuat hal sederhana yang terasa spesial.</span>
+        </h1>
+        <p class="lead">Saya membuat antarmuka yang ramah, eksperimen interaktif, dan projek kecil yang dapat langsung dicoba. Jelajahi playground untuk bereksperimen atau lihat karya terbaik di bagian Karya.</p>
+        <div class="ctas">
+          <button class="btn" onclick="document.getElementById('play').scrollIntoView({behavior:'smooth'})">Mulai Bermain</button>
+          <a class="btn secondary" href="#work" role="button">Lihat Karya</a>
         </div>
-        <div style="position:relative;">
-          <!-- rotating SVG ball -->
-          <svg id="hero-ball" viewBox="0 0 100 100" aria-hidden="true">
-            <defs>
-              <linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="white"/><stop offset="1" stop-color="#aaa"/></linearGradient>
-            </defs>
-            <g>
-              <circle cx="50" cy="50" r="36" fill="url(#g1)" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
-              <path d="M20 60 C35 50, 65 50, 80 60" stroke="rgba(0,0,0,0.15)" fill="none" stroke-width="4" stroke-linecap="round"/>
-            </g>
-          </svg>
+        <div class="badge-row" aria-hidden>
+          <div class="badge">HTML • CSS • JS</div>
+          <div class="badge">UI/UX</div>
+          <div class="badge">Micro-projects</div>
         </div>
       </div>
 
-      <div style="margin-top:12px" class="grid">
-        <div class="card">
-          <h3>Lesson Cards</h3>
-          <div class="grid" id="lessons-grid" style="grid-template-columns:repeat(3,1fr)"></div>
+      <aside class="hero-right card-visual float">
+        <div class="profile">
+          <div class="avatar">R</div>
+          <div class="meta">
+            <div style="font-weight:800">Riki</div>
+            <small>Pengembang Frontend & Hobi Eksperimen</small>
+          </div>
         </div>
-        <div class="card">
-          <h3>Quick Tips</h3>
-          <ul>
-            <li>Enter: spawn bola (di posisi mouse/center)</li>
-            <li>Space: pause / resume simulation</li>
-            <li>R: reset playground</li>
-            <li>Drag target or ball to apply impulse</li>
-          </ul>
+        <div class="stats">
+          <div class="stat"><div style="font-weight:800">12+</div><small>Projek</small></div>
+          <div class="stat"><div style="font-weight:800">4</div><small>Tools</small></div>
+          <div class="stat"><div style="font-weight:800">100%</div><small>Rasa Ingin Tahu</small></div>
         </div>
-        <div class="card">
-          <h3>Theme Presets</h3>
-          <div id="presets" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+        <div style="margin-top:14px">
+          <small style="color:var(--muted)">Cepat, ringan, dan dibuat dalam satu file.</small>
         </div>
+      </aside>
+    </section>
+
+    <section id="work" class="container">
+      <h2 style="margin-top:0">Karya Pilihan</h2>
+      <div class="grid-3" role="list">
+        <article class="card" role="listitem">
+          <h3>Mini Game Bola</h3>
+          <p style="color:var(--muted)">Eksperimen physics sederhana dengan interaksi mouse/tap.</p>
+          <p><small>HTML Canvas • JS</small></p>
+        </article>
+        <article class="card" role="listitem">
+          <h3>UI Library Kecil</h3>
+          <p style="color:var(--muted)">Kumpulan komponen ringan untuk prototyping.</p>
+          <p><small>Reusable • Accessible</small></p>
+        </article>
+        <article class="card" role="listitem">
+          <h3>Portfolio Interaktif</h3>
+          <p style="color:var(--muted)">Halaman ini adalah contoh single-file yang ringkas.</p>
+          <p><small>Design • Animasi</small></p>
+        </article>
       </div>
     </section>
 
-    <section id="panel-play" role="tabpanel" aria-labelledby="tab-play" class="hidden">
-      <div class="row">
-        <div style="flex:1">
-          <div class="card canvas-wrap">
-            <div class="overlay-ui" id="overlay-ui">
-              <div class="switch" role="group" aria-label="Playback controls">
-                <button id="pause-btn" class="small">Pause</button>
-                <button id="reset-btn" class="small">Reset</button>
-                <button id="spawn-btn" class="small">Spawn</button>
-              </div>
-              <div class="switch">
-                <label><input type="checkbox" id="emote-toggle"> Anime Emote</label>
-              </div>
-              <div class="switch">
-                <label><input type="checkbox" id="hc-mode"> High Contrast</label>
-              </div>
-            </div>
-
-            <canvas id="play-canvas" tabindex="0" aria-label="Physics playground canvas"></canvas>
-
-            <!-- moving target -->
-            <div id="target" class="target" style="right:40px;top:40px;background:var(--accent);">🎯</div>
-
-            <!-- UI sliders -->
-            <div style="position:absolute;right:12px;bottom:12px;z-index:12" class="card small">
-              <div class="controls">
-                <div class="slider"><label>Mass <span id="mass-val">1.0</span></label><input id="mass" type="range" min="0.2" max="8" step="0.1" value="1"></div>
-                <div class="slider"><label>Elasticity <span id="elas-val">0.8</span></label><input id="elasticity" type="range" min="0" max="1" step="0.01" value="0.8"></div>
-                <div class="slider"><label>Friction <span id="fric-val">0.01</span></label><input id="friction" type="range" min="0" max="0.2" step="0.005" value="0.01"></div>
-                <div class="slider"><label>Gravity <span id="grav-val">0.98</span></label><input id="gravity" type="range" min="0" max="2" step="0.01" value="0.98"></div>
-                <div class="hint">Incline angle: <input id="incline" type="range" min="-45" max="45" step="1" value="0"> <span id="incline-val">0°</span></div>
-              </div>
-            </div>
-
-            <!-- dropzone for texture -->
-            <div style="position:absolute;left:12px;bottom:12px;z-index:12" class="card dropzone" id="dropzone">
-              <div>Drop texture here or click to choose</div>
-              <input id="dropfile" type="file" accept="image/*" style="display:none">
-            </div>
-
-          </div>
+    <section id="play" class="container">
+      <h2>Playground — coba langsung</h2>
+      <div class="card" style="padding:12px">
+        <p style="color:var(--muted);margin-top:0">Klik tombol untuk melihat efek sederhana (typing & warna acak).</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <button class="btn" id="runBtn">Jalankan Efek</button>
+          <button class="btn secondary" id="colorBtn">Warna Acak</button>
         </div>
-
-        <aside style="width:320px">
-          <div class="card">
-            <h3>Target Practice</h3>
-            <div>Score: <span id="score">0</span></div>
-            <div>Level: <span id="level">1</span></div>
-            <div style="margin-top:8px"><button class="small" id="save-progress">Save Progress</button> <button class="small" id="load-progress">Load</button></div>
-            <hr>
-            <h4>Sticker Builder</h4>
-            <div><button class="small" id="screenshot-btn">Screenshot to Sticker</button></div>
-            <div style="margin-top:8px">Stickers:</div>
-            <div id="stickers" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px"></div>
-            <hr>
-            <h4>Advanced</h4>
-            <div id="konami-panel" class="hidden">
-              <label>Nonlinear Air Drag <input id="air-drag" type="checkbox"></label>
-              <div>Wind Gust: <button id="gust-btn" class="small">Trigger</button></div>
-            </div>
-          </div>
-        </aside>
+        <div id="playOutput" style="margin-top:14px;padding:12px;border-radius:10px;background:rgba(0,0,0,0.12);min-height:40px"></div>
       </div>
     </section>
 
-    <section id="panel-gallery" role="tabpanel" aria-labelledby="tab-gallery" class="hidden">
+    <section id="gallery" class="container">
+      <h2>Gallery</h2>
+      <div class="gallery">
+        <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=800&auto=format&fit=crop" alt="Contoh 1" tabindex="0"/>
+        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=800&auto=format&fit=crop" alt="Contoh 2" tabindex="0"/>
+        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop" alt="Contoh 3" tabindex="0"/>
+        <img src="https://images.unsplash.com/photo-1506765515384-028b60a970df?q=80&w=800&auto=format&fit=crop" alt="Contoh 4" tabindex="0"/>
+      </div>
+    </section>
+
+    <section id="contact" class="container">
+      <h2>Kontak</h2>
+      <p style="color:var(--muted)">Punya ide atau mau kolaborasi? Tinggalkan pesan singkat.</p>
       <div class="card">
-        <h3>Gallery</h3>
-        <div class="gallery-grid" id="gallery-grid"></div>
+        <form onsubmit="event.preventDefault();alert('Terima kasih! Pesan terkirim (simulasi).')">
+          <input aria-label="Nama" placeholder="Nama" required />
+          <input aria-label="Email" placeholder="Email" required />
+          <textarea aria-label="Pesan" placeholder="Tulis pesan..." required></textarea>
+          <div style="display:flex;gap:10px;align-items:center">
+            <button class="btn" type="submit">Kirim</button>
+            <button class="btn secondary" type="button" onclick="location.href='#'">Unduh CV</button>
+          </div>
+        </form>
       </div>
     </section>
 
-    <section id="panel-about" role="tabpanel" aria-labelledby="tab-about" class="hidden">
-      <div class="card">
-        <h2>Riki Rukhimat</h2>
-        <p class="hint">Bio singkat: Riki Rukhimat — pengembang kreatif yang gemar menyatukan fisika dan kode untuk pembelajaran interaktif.</p>
-        <div style="display:flex;gap:8px;margin-top:8px">
-          <a href="#" class="small">Twitter (dummy)</a>
-          <a href="#" class="small">GitHub (dummy)</a>
-          <a href="#" class="small">Website (dummy)</a>
-        </div>
-      </div>
-    </section>
   </main>
 
-  <div class="footer">
-    <div class="hint">Built with ❤️ — keyboard accessible, ARIA tabs & modal</div>
-    <div style="display:flex;gap:8px;align-items:center">
-      <div class="hint">Press <kbd>Space</kbd> to pause</div>
+  <footer>
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+        <div>&copy; <strong>Riki</strong> — Dibuat dengan sedikit magis.</div>
+        <div style="color:var(--muted)">Ikuti: <a href="#">Twitter</a> • <a href="#">GitHub</a></div>
+      </div>
     </div>
-  </div>
+  </footer>
 
-  <!-- modal viewer for gallery -->
-  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-content" role="document">
-      <button id="modal-close" class="small">Close</button>
-      <div id="modal-body"></div>
-    </div>
-  </div>
+  <script>
+    // Simple playground behaviors
+    const runBtn = document.getElementById('runBtn');
+    const colorBtn = document.getElementById('colorBtn');
+    const out = document.getElementById('playOutput');
 
-  <!-- hidden img uploader preview -->
-  <canvas id="offscreen" class="hidden" width="800" height="600"></canvas>
-
-</div>
-
-<script>
-/* ============================
-   Utilities & State
-   ============================ */
-const $ = (sel,root=document)=>root.querySelector(sel);
-const $$ = (sel,root=document)=>Array.from(root.querySelectorAll(sel));
-const app = document.getElementById('app');
-
-let state = {
-  paused:false, gravity:0.98, elasticity:0.8, friction:0.01, mass:1, inclineDeg:0,
-  emote:false, highContrast:false, textureImg:null, stickers:[], score:0, level:1,
-  moonTimer:null, konami:false, airDrag:false
-};
-
-/* Load preferences */
-try{
-  const saved = JSON.parse(localStorage.getItem('rprefs')||'null');
-  if(saved){
-    Object.assign(state,saved);
-    if(saved.stickers) state.stickers = saved.stickers;
-  }
-}catch(e){console.warn(e)}
-
-/* Helpers */
-function savePrefs(){localStorage.setItem('rprefs', JSON.stringify({
-  gravity: state.gravity, elasticity: state.elasticity, friction: state.friction,
-  mass: state.mass, inclineDeg: state.inclineDeg, accent:getComputedStyle(document.documentElement).getPropertyValue('--accent').trim(),
-  bg:getComputedStyle(document.documentElement).getPropertyValue('--bg').trim(), stickers:state.stickers
-}))}
-function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
-function uid(n=6){return Math.random().toString(36).slice(2,n+2)}
-/* Accessibility focus helper */
-function focusTab(tabEl){
-  $$('.tab').forEach(t=>t.setAttribute('aria-selected','false'));
-  tabEl.setAttribute('aria-selected','true');
-  const pid = tabEl.getAttribute('aria-controls');
-  $$('main [role="tabpanel"]').forEach(p=>p.classList.add('hidden'));
-  document.getElementById(pid).classList.remove('hidden');
-  tabEl.focus();
-}
-
-/* =============
-   Tabs ARIA
-   ============= */
-const tabs = $$('.tab');
-tabs.forEach(t=>{
-  t.addEventListener('click',()=>focusTab(t));
-  t.addEventListener('keydown',(e)=>{
-    if(e.key==='ArrowRight' || e.key==='ArrowLeft'){
-      const i = tabs.indexOf(t);
-      const ni = e.key==='ArrowRight' ? (i+1)%tabs.length : (i-1+tabs.length)%tabs.length;
-      focusTab(tabs[ni]);
+    function typingEffect(text, el, speed=40){
+      el.textContent = '';
+      let i=0; const t = setInterval(()=>{
+        el.textContent += text[i++] || '';
+        if(i>text.length) clearInterval(t);
+      }, speed);
     }
-  });
-});
-/* CTA to playground */
-$('#cta-start').addEventListener('click',()=>{focusTab($('#tab-play'))});
-$('#open-lessons').addEventListener('click',()=>{focusTab($('#tab-home')); $('#lessons-grid').scrollIntoView({behavior:'smooth'})});
 
-/* =============
-   Lessons
-   ============= */
-const lessons = [
-  {title:'Vektor', desc:'Arah & besar (velocity) → coba mass kecil & arah tinggi', params:{mass:0.5,elasticity:0.6,friction:0.01,gravity:0.5}},
-  {title:'Momentum', desc:'massa vs kecepatan - observasi tumbukan', params:{mass:3,elasticity:0.9,friction:0.005,gravity:0.9}},
-  {title:'Kolisi Elastis', desc:'refleksi energi', params:{mass:1,elasticity:1,friction:0,gravity:1}},
-  {title:'Easing', desc:'perpindahan halus (damping)', params:{mass:0.6,elasticity:0.4,friction:0.05,gravity:0.6}},
-  {title:'rAF', desc:'frame loop & performa', params:{mass:1,elasticity:0.8,friction:0.02,gravity:0.8}},
-  {title:'Parallax', desc:'layered motion', params:{mass:0.8,elasticity:0.6,friction:0.02,gravity:0.6}}
-];
-const lessonsGrid = $('#lessons-grid');
-lessons.forEach((l,i)=>{
-  const div = document.createElement('div');
-  div.className='lesson-card card';
-  div.innerHTML = `<h4>${l.title}</h4><p class="hint">${l.desc}</p><div style="margin-top:8px"><button class="small" data-idx="${i}">Coba</button></div>`;
-  lessonsGrid.appendChild(div);
-});
-lessonsGrid.addEventListener('click', (e)=>{
-  const b = e.target.closest('button[data-idx]');
-  if(!b) return;
-  const idx = +b.dataset.idx;
-  const p = lessons[idx].params;
-  // inject into playground controls
-  $('#mass').value = p.mass; $('#elasticity').value = p.elasticity; $('#friction').value = p.friction; $('#gravity').value = p.gravity;
-  updateControlValues();
-  focusTab($('#tab-play'));
-});
-
-/* =============
-   Theme Editor
-   ============= */
-const accentPicker = $('#accent-picker');
-const bgPicker = $('#bg-picker');
-accentPicker.addEventListener('input', (e)=>document.documentElement.style.setProperty('--accent', e.target.value));
-bgPicker.addEventListener('input', (e)=>document.documentElement.style.setProperty('--bg', e.target.value));
-$('#save-preset').addEventListener('click', ()=>{
-  const p = {accent:accentPicker.value, bg:bgPicker.value, id:uid()};
-  const btn = document.createElement('button'); btn.className='small'; btn.textContent='Preset'; btn.style.background = p.accent; btn.addEventListener('click', ()=>{accentPicker.value=p.accent; bgPicker.value=p.bg; accentPicker.dispatchEvent(new Event('input')); bgPicker.dispatchEvent(new Event('input'))});
-  $('#presets').appendChild(btn);
-});
-
-/* Contrast toggle */
-$('#contrast-toggle').addEventListener('click', ()=>{
-  const on = document.documentElement.getAttribute('data-contrast') === 'high';
-  if(on){document.documentElement.removeAttribute('data-contrast'); $('#contrast-toggle').setAttribute('aria-pressed','false')}
-  else{document.documentElement.setAttribute('data-contrast','high'); $('#contrast-toggle').setAttribute('aria-pressed','true')}
-});
-
-/* =============
-   Canvas & Physics
-   ============= */
-const canvas = $('#play-canvas');
-const ctx = canvas.getContext('2d');
-let W=0,H=0;
-function resizeCanvas(){W=canvas.width=canvas.clientWidth; H=canvas.height=canvas.clientHeight;}
-new ResizeObserver(resizeCanvas).observe(canvas);
-resizeCanvas();
-
-/* Object pooling */
-const POOL_SIZE = 80;
-const pool = [];
-for(let i=0;i<POOL_SIZE;i++){
-  pool.push({alive:false,x:0,y:0,vx:0,vy:0,r:16,mass:1,elasticity:0.8,friction:0.01,id:uid(4),shape:'circle',texture:null,emote:false});
-}
-function spawnBall(x,y,opts={}){
-  const b = pool.find(p=>!p.alive) || pool[0];
-  b.alive=true; b.x=x; b.y=y; b.vx=(Math.random()*2-1)*2; b.vy=(Math.random()*-2-0.5)*2;
-  b.r = opts.r || 18; b.mass = opts.mass || state.mass; b.elasticity=opts.elasticity ?? state.elasticity; b.friction=opts.friction ?? state.friction;
-  b.shape = opts.shape || 'circle'; b.texture = opts.texture || state.textureImg; b.emote = opts.emote ?? state.emote;
-  return b;
-}
-function resetPool(){pool.forEach(p=>p.alive=false)}
-
-/* Target */
-const targetEl = $('#target');
-let target = {x:W-80,y:40, vx:1.3, vy:0, r:24, moving:true};
-function updateTargetPos(dt){
-  const t = performance.now()/1000;
-  target.x = W - 80 + Math.sin(t*1.2)*120;
-  target.y = 40 + Math.cos(t*1.6)*36;
-  targetEl.style.left = (target.x - target.r) + 'px';
-  targetEl.style.top = (target.y - target.r) + 'px';
-}
-
-/* Drag-throw on target */
-let dragState = null;
-targetEl.addEventListener('pointerdown', (e)=>{
-  dragState = {sx:e.clientX, sy:e.clientY, startX:target.x, startY:target.y};
-  targetEl.setPointerCapture(e.pointerId);
-});
-targetEl.addEventListener('pointermove', (e)=>{
-  if(!dragState) return;
-  const dx = e.clientX - dragState.sx;
-  const dy = e.clientY - dragState.sy;
-  target.x = clamp(dragState.startX + dx, 40, W-40);
-  target.y = clamp(dragState.startY + dy, 40, H-40);
-});
-targetEl.addEventListener('pointerup', (e)=>{
-  if(!dragState) return;
-  // apply impulse to nearby balls
-  const impulse = {vx:(e.clientX - dragState.sx)/15, vy:(e.clientY - dragState.sy)/15};
-  pool.filter(p=>p.alive).forEach(b=>{
-    const dx = b.x - target.x, dy = b.y - target.y;
-    if(Math.hypot(dx,dy) < 120){
-      b.vx += impulse.vx; b.vy += impulse.vy;
-    }
-  });
-  dragState=null;
-});
-
-/* Physics parameters controls */
-function updateControlValues(){
-  state.mass = parseFloat($('#mass').value);
-  state.elasticity = parseFloat($('#elasticity').value);
-  state.friction = parseFloat($('#friction').value);
-  state.gravity = parseFloat($('#gravity').value);
-  state.inclineDeg = parseFloat($('#incline').value);
-  $('#mass-val').textContent = state.mass.toFixed(1);
-  $('#elas-val').textContent = state.elasticity.toFixed(2);
-  $('#fric-val').textContent = state.friction;
-  $('#grav-val').textContent = state.gravity.toFixed(2);
-  $('#incline-val').textContent = state.inclineDeg + '°';
-}
-$$('input[type="range"]').forEach(r=>r.addEventListener('input',updateControlValues));
-updateControlValues();
-
-/* Emote toggle */
-$('#emote-toggle').addEventListener('change',(e)=>{state.emote = e.target.checked});
-
-/* Spawn on click */
-canvas.addEventListener('click',(e)=>{
-  const rect = canvas.getBoundingClientRect();
-  const x = e.clientX - rect.left, y = e.clientY - rect.top;
-  spawnBall(x,y,{mass:state.mass,elasticity:state.elasticity,friction:state.friction, emote: state.emote});
-});
-$('#spawn-btn').addEventListener('click', ()=> {
-  // spawn at center
-  const rc = canvas.getBoundingClientRect();
-  spawnBall(rc.width/2, rc.height/2, {mass:state.mass,elasticity:state.elasticity,friction:state.friction, emote: state.emote});
-});
-
-/* Keyboard controls */
-document.addEventListener('keydown',(e)=>{
-  if(e.key===' '){ e.preventDefault(); togglePause(); }
-  if(e.key==='Enter'){ // spawn at center or mouse if known
-    const rc = canvas.getBoundingClientRect();
-    spawnBall(rc.width/2, rc.height/2,{mass:state.mass,elasticity:state.elasticity,friction:state.friction, emote: state.emote});
-  }
-  if(e.key.toLowerCase()==='r'){ resetPlay(); }
-});
-
-/* Pause / Reset buttons */
-function togglePause(){ state.paused = !state.paused; $('#pause-btn').textContent = state.paused ? 'Resume' : 'Pause'; }
-$('#pause-btn').addEventListener('click', togglePause);
-$('#reset-btn').addEventListener('click', resetPlay);
-$('#reset-btn').addEventListener('keyup',(e)=>e.key==='Enter' && resetPlay());
-
-function resetPlay(){
-  resetPool(); state.score=0; state.level=1; $('#score').textContent=state.score; $('#level').textContent=state.level;
-}
-
-/* Pause on tab blur for perf */
-window.addEventListener('blur', ()=>{ state.wasPausedBeforeBlur = state.paused; state.paused = true; });
-window.addEventListener('focus', ()=>{ if(state.wasPausedBeforeBlur===false) state.paused=false; });
-
-/* Simple collision with walls and incline */
-function physicsStep(dt){
-  const inclineRad = state.inclineDeg * Math.PI/180;
-  const inclineNormal = {x: -Math.sin(inclineRad), y: Math.cos(inclineRad)}; // vector pointing up from plane
-  const planeA = {x:0, y: H - Math.tan(inclineRad)*0}; // simplified plane passing through bottom-left
-  pool.forEach(b=>{
-    if(!b.alive) return;
-    // integrate
-    // apply gravity (with possible moon gravity)
-    const g = state.gravity;
-    b.vy += g * dt * 60 / 60; // normalized per-frame feel
-    // optional nonlinear air drag
-    if(state.airDrag) {
-      const speed = Math.hypot(b.vx,b.vy);
-      const drag = 0.001 * speed * speed;
-      if(speed>0){ b.vx -= (b.vx/speed)*drag; b.vy -= (b.vy/speed)*drag; }
-    } else {
-      b.vx *= (1 - b.friction);
-      b.vy *= (1 - b.friction*0.5);
-    }
-    b.x += b.vx * dt * 60;
-    b.y += b.vy * dt * 60;
-
-    // walls
-    if(b.x - b.r < 0){ b.x = b.r; b.vx = -b.vx * b.elasticity; }
-    if(b.x + b.r > W){ b.x = W - b.r; b.vx = -b.vx * b.elasticity; }
-    if(b.y - b.r < 0){ b.y = b.r; b.vy = -b.vy * b.elasticity; }
-    if(b.y + b.r > H){ b.y = H - b.r; b.vy = -b.vy * b.elasticity; b.vx *= (1 - b.friction*2); }
-    // simple ball-ball collisions
-    pool.forEach(b2=>{
-      if(!b2.alive || b2===b) return;
-      const dx = b2.x - b.x, dy = b2.y - b.y;
-      const dist = Math.hypot(dx,dy);
-      if(dist < b.r + b2.r && dist>0){
-        // resolve overlap
-        const overlap = (b.r + b2.r) - dist;
-        const nx = dx/dist, ny = dy/dist;
-        const totalMass = b.mass + b2.mass;
-        b.x -= nx*(overlap*(b2.mass/totalMass));
-        b.y -= ny*(overlap*(b2.mass/totalMass));
-        b2.x += nx*(overlap*(b.mass/totalMass));
-        b2.y += ny*(overlap*(b.mass/totalMass));
-        // velocities (1D along normal)
-        const relvx = b.vx - b2.vx, relvy = b.vy - b2.vy;
-        const relDot = relvx*nx + relvy*ny;
-        if(relDot < 0){
-          const e = Math.min(b.elasticity, b2.elasticity);
-          const j = -(1+e) * relDot / (1/b.mass + 1/b2.mass);
-          b.vx += (j*nx)/b.mass; b.vy += (j*ny)/b.mass;
-          b2.vx -= (j*nx)/b2.mass; b2.vy -= (j*ny)/b2.mass;
-        }
-      }
+    runBtn.addEventListener('click', ()=>{
+      const phrases = ['Halo, saya Riki.', 'Selamat datang di playground!', 'Coba tombol warna acak.'];
+      typingEffect(phrases[Math.floor(Math.random()*phrases.length)], out);
     });
 
-    // scoring: if ball hits target
-    const dx = b.x - target.x, dy = b.y - target.y;
-    if(Math.hypot(dx,dy) < b.r + target.r){
-      // score and bounce target a bit
-      state.score += Math.max(1, Math.round(5/b.mass));
-      $('#score').textContent = state.score;
-      b.vx *= -0.6; b.vy *= -0.6;
-      // level up thresholds
-      if(state.score > state.level * 15){ state.level++; $('#level').textContent = state.level; }
-    }
-  });
-}
+    colorBtn.addEventListener('click', ()=>{
+      const rand = ()=>Math.floor(Math.random()*200)+30;
+      const g = `radial-gradient(circle at 20% 10%, rgba(${rand()},${rand()},${rand()},0.18), rgba(0,0,0,0)), linear-gradient(135deg, rgba(${rand()},${rand()},${rand()},0.06), rgba(${rand()},${rand()},${rand()},0.06))`;
+      out.style.background = g;
+      out.style.border = '1px solid rgba(255,255,255,0.04)';
+      out.style.padding = '18px';
+      out.textContent = 'Warna acak diterapkan — keren!';
+    });
 
-/* Draw */
-function draw(){
-  ctx.clearRect(0,0,W,H);
-  // background gradient
-  const g = ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,getComputedStyle(document.documentElement).getPropertyValue('--bg').trim()); g.addColorStop(1,'#04101a');
-  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+    // Smooth anchor scroll for internal links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const href = a.getAttribute('href');
+        if(href.length>1){
+          e.preventDefault();
+          document.querySelector(href).scrollIntoView({behavior:'smooth'});
+        }
+      });
+    });
 
-  // incline visual
-  const ang = state.inclineDeg * Math.PI/180;
-  ctx.save();
-  ctx.translate(0,H);
-  ctx.rotate(-ang);
-  ctx.fillStyle = 'rgba(255,255,255,0.02)';
-  ctx.fillRect(0, -6, W*2, 6);
-  ctx.restore();
-
-  // balls
-  pool.forEach(b=>{
-    if(!b.alive) return;
-    ctx.save();
-    ctx.beginPath();
-    if(b.shape === 'polygon'){
-      // tetrahedron-like fake polygon
-      const sides = 4;
-      ctx.translate(b.x,b.y);
-      ctx.moveTo(b.r,0);
-      for(let i=1;i<sides;i++){
-        const a = (i/sides)*Math.PI*2;
-        ctx.lineTo(Math.cos(a)*b.r, Math.sin(a)*b.r);
-      }
-      ctx.closePath();
-    } else {
-      ctx.arc(b.x,b.y,b.r,0,Math.PI*2);
-    }
-    ctx.fillStyle = b.texture ? ctx.createPattern(b.texture,'repeat') : 'linear-gradient(180deg,#fff, #ccc)';
-    // since patterns can't be created from color strings here, fallback:
-    if(b.texture){
-      ctx.fill();
-    } else {
-      ctx.fillStyle = 'rgba(255,255,255,0.06)';
-      ctx.fill();
-      // rim
-      ctx.lineWidth = 2; ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.stroke();
-      // simple shading
-      ctx.beginPath(); ctx.arc(b.x-6,b.y-6,b.r*0.7,0,Math.PI*2); ctx.fillStyle='rgba(255,255,255,0.06)'; ctx.fill();
-    }
-    // emote overlay
-    if(b.emote){
-      ctx.fillStyle='rgba(0,0,0,0.5)';
-      ctx.font = (b.r*0.6) + 'px sans-serif';
-      ctx.textAlign='center'; ctx.textBaseline='middle';
-      ctx.fillText('^^', b.x, b.y - 2);
-    }
-    ctx.restore();
-  });
-
-  // HUD (score)
-  ctx.fillStyle = 'rgba(255,255,255,0.06)';
-  ctx.font = '14px sans-serif';
-  ctx.fillText('Score: ' + state.score, 12, 20);
-}
-
-/* Main rAF loop single */
-let last = performance.now();
-function loop(t){
-  const dt = Math.min(0.033, (t - last)/1000);
-  last = t;
-  if(!state.paused){
-    updateTargetPos(dt);
-    physicsStep(dt);
-  }
-  draw();
-  requestAnimationFrame(loop);
-}
-requestAnimationFrame(loop);
-
-/* =============
-   Screenshot to Sticker (canvas capture -> gallery)
-   ============= */
-$('#screenshot-btn').addEventListener('click', ()=>{
-  const data = canvas.toDataURL('image/png');
-  addSticker(data);
-});
-function addSticker(dataURL){
-  // add to local state and UI
-  const id = uid(6);
-  state.stickers.push({id, src:dataURL});
-  saveStickersToStorage();
-  renderStickers();
-}
-function saveStickersToStorage(){ localStorage.setItem('stickers', JSON.stringify(state.stickers)); savePrefs(); }
-function loadStickersFromStorage(){ try{ state.stickers = JSON.parse(localStorage.getItem('stickers')||'[]') }catch(e){state.stickers=[]} }
-loadStickersFromStorage();
-function renderStickers(){
-  const cont = $('#stickers'); cont.innerHTML='';
-  state.stickers.forEach(s=>{
-    const img = document.createElement('img'); img.src=s.src; img.className='sticker'; img.draggable=true;
-    img.addEventListener('dragstart',(e)=>{ e.dataTransfer.setData('text/plain', s.id) });
-    // allow drop onto canvas to place sticker in scene (just gallery draggable)
-    cont.appendChild(img);
-  });
-  // also show gallery grid
-  const gg = $('#gallery-grid'); gg.innerHTML='';
-  state.stickers.forEach(s=>{
-    const img = document.createElement('img'); img.src=s.src; img.style.width='100%'; img.style.borderRadius='8px'; img.style.cursor='pointer';
-    img.addEventListener('click', ()=>openModal(`<img src="${s.src}" style="max-width:90vw;max-height:80vh">`));
-    gg.appendChild(img);
-  });
-}
-renderStickers();
-
-/* make stickers draggable onto canvas -> we will draw them as DOM overlays over canvas (simple) */
-canvas.addEventListener('dragover',(e)=>e.preventDefault());
-canvas.addEventListener('drop',(e)=>{
-  e.preventDefault();
-  const id = e.dataTransfer.getData('text/plain');
-  const s = state.stickers.find(x=>x.id===id);
-  if(!s) return;
-  // create a floating img on top of canvas
-  const img = new Image(); img.src = s.src; img.style.position='absolute'; img.style.left = (e.clientX-60)+'px'; img.style.top=(e.clientY-60)+'px'; img.style.width='120px'; img.style.cursor='grab';
-  document.body.appendChild(img);
-  img.addEventListener('pointerdown', (ev)=>{
-    const ox = ev.clientX - img.offsetLeft, oy = ev.clientY - img.offsetTop;
-    function move(m){ img.style.left = (m.clientX - ox) + 'px'; img.style.top = (m.clientY - oy) + 'px'; }
-    function up(){ window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); }
-    window.addEventListener('pointermove', move); window.addEventListener('pointerup', up);
-  });
-});
-
-/* Modal */
-function openModal(html){
-  const modal = $('#modal'); $('#modal-body').innerHTML = html; modal.setAttribute('open',''); modal.setAttribute('aria-hidden','false');
-}
-$('#modal-close').addEventListener('click', ()=>{ const modal = $('#modal'); modal.removeAttribute('open'); modal.setAttribute('aria-hidden','true'); });
-
-/* =============
-   Texture Dropzone
-   ============= */
-const dz = $('#dropzone');
-dz.addEventListener('click', ()=>$('#dropfile').click());
-$('#dropfile').addEventListener('change',(e)=>{ handleFiles(e.target.files); });
-dz.addEventListener('dragover',(e)=>{ e.preventDefault(); dz.style.borderColor='white'; });
-dz.addEventListener('dragleave',(e)=>{ dz.style.borderColor=''; });
-dz.addEventListener('drop',(e)=>{ e.preventDefault(); dz.style.borderColor=''; handleFiles(e.dataTransfer.files); });
-function handleFiles(files){
-  if(!files || !files[0]) return;
-  const f = files[0];
-  const img = new Image();
-  const reader = new FileReader();
-  reader.onload = ()=>{ img.src = reader.result; img.onload = ()=>{ state.textureImg = img; alert('Texture loaded (preview on spawned balls)'); } };
-  reader.readAsDataURL(f);
-}
-
-/* =============
-   Target Practice: scoring save/load
-   ============= */
-$('#save-progress').addEventListener('click', ()=>{ localStorage.setItem('rprogress', JSON.stringify({score:state.score,level:state.level})); alert('Progress saved') });
-$('#load-progress').addEventListener('click', ()=>{ const p=JSON.parse(localStorage.getItem('rprogress')||'null'); if(p){state.score=p.score;state.level=p.level;$('#score').textContent=state.score;$('#level').textContent=state.level;} else alert('No saved progress') });
-
-/* =============
-   Konami Code unlocking panel
-   ============= */
-const konami = [ 'ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a' ];
-let kidx=0;
-document.addEventListener('keydown',(e)=>{
-  if(e.key===konami[kidx]){ kidx++; if(kidx===konami.length){ unlockKonami(); kidx=0; } } else kidx = e.key===konami[0] ? 1 : 0;
-});
-function unlockKonami(){
-  state.konami = true; $('#konami-panel').classList.remove('hidden'); alert('Konami unlocked: eksperimen lanjutan tersedia!');
-  savePrefs();
-}
-$('#gust-btn').addEventListener('click', ()=>{
-  // apply gust to all balls
-  pool.forEach(b=>{ if(b.alive){ b.vx += (Math.random()*2-1)*4; b.vy -= Math.random()*3+1 }});
-});
-
-/* Air drag toggle */
-$('#air-drag').addEventListener('change',(e)=>state.airDrag=e.target.checked);
-
-/* =============
-   Hidden Gems: sensei, moon gravity, T-hold, clicking "o"
-   ============= */
-let typed = '';
-const SENSEI = 'sensei';
-document.addEventListener('keydown',(e)=>{
-  typed += e.key.toLowerCase();
-  if(typed.length > 20) typed = typed.slice(-20);
-  if(typed.includes(SENSEI)){ showSensei(); typed=''; }
-});
-function showSensei(){
-  const mascot = document.createElement('div');
-  mascot.textContent='🧙‍♂️ Sensei: "Coba tekan Enter untuk spawn bola — eksperimen terus!"';
-  mascot.style.position='fixed'; mascot.style.left='12px'; mascot.style.bottom='12px'; mascot.style.background='var(--card)'; mascot.style.padding='10px'; mascot.style.borderRadius='10px';
-  document.body.appendChild(mascot);
-  setTimeout(()=>mascot.remove(),6000);
-}
-
-/* clicking the "o" on Playground 3x triggers moon gravity 10s */
-let oclicks=0, otimeout=null;
-$('#play-o').addEventListener('click', ()=>{
-  oclicks++;
-  clearTimeout(otimeout);
-  otimeout=setTimeout(()=>{oclicks=0},1500);
-  if(oclicks>=3){
-    triggerMoonGravity();
-    oclicks=0;
-  }
-});
-function triggerMoonGravity(){
-  const prev = state.gravity;
-  state.gravity = 0.16; $('#grav-val').textContent = state.gravity.toFixed(2); alert('Moon Gravity activated 10s!');
-  clearTimeout(state.moonTimer);
-  state.moonTimer = setTimeout(()=>{ state.gravity = prev; updateControlValues(); alert('Moon Gravity ended') },10000);
-}
-
-/* Hold T for 2s -> tetrahedron shape */
-let TholdTimer=null;
-document.addEventListener('keydown',(e)=>{
-  if(e.key.toLowerCase()==='t' && !TholdTimer){
-    TholdTimer = setTimeout(()=>{ // convert recent spawned balls to polygon temporarily
-      pool.forEach(b=>{ if(b.alive) b.shape='polygon' });
-      setTimeout(()=>{ pool.forEach(b=>{ if(b.alive) b.shape='circle' }) }, 4000); // 4s effect
-    },2000);
-  }
-});
-document.addEventListener('keyup',(e)=>{
-  if(e.key.toLowerCase()==='t'){ clearTimeout(TholdTimer); TholdTimer=null; }
-});
-
-/* Hero ball rotate animation */
-(function rotateHero(){
-  const el = $('#hero-ball');
-  let a=0;
-  setInterval(()=>{ a+=2; el.style.transform = `rotate(${a}deg)` },40);
-})();
-
-/* =============
-   Emote Pack toggle (changes to spawned balls)
-   ============= */
-/* already bound to state.emote */
-
-/* =============
-   Modal Viewer & Gallery population
-   ============= */
-function openGalleryItem(src){
-  openModal(`<img src="${src}" style="max-width:90vw;max-height:80vh">`);
-}
-
-/* Load stickers from storage on init already done */
-renderStickers();
-
-/* =============
-   Persist / Save preferences periodically
-   ============= */
-setInterval(()=>{ savePrefs(); saveStickersToStorage() }, 5000);
-
-/* =============
-   Misc: Hero keyboard focus, play canvas focus
-   ============= */
-canvas.addEventListener('focus', ()=>canvas.style.outline='3px solid rgba(255,255,255,0.04)');
-canvas.addEventListener('blur', ()=>canvas.style.outline='none');
-
-/* =============
-   Gallery modal open on click
-   ============= */
-$('#gallery-grid').addEventListener('click',(e)=>{ const img = e.target.closest('img'); if(img) openModal(`<img src="${img.src}" style="max-width:90vw;max-height:80vh">`) });
-
-/* =============
-   Load saved prefs to UI
-   ============= */
-(function initFromPrefs(){
-  try{
-    const p = JSON.parse(localStorage.getItem('rprefs')||'null');
-    if(!p) return;
-    if(p.accent) document.documentElement.style.setProperty('--accent', p.accent);
-    if(p.bg) document.documentElement.style.setProperty('--bg', p.bg);
-    if(p.gravity) { state.gravity = p.gravity; $('#gravity').value = p.gravity; }
-    if(p.elasticity) { state.elasticity = p.elasticity; $('#elasticity').value = p.elasticity; }
-    if(p.friction) { state.friction = p.friction; $('#friction').value = p.friction; }
-    if(p.mass) { state.mass = p.mass; $('#mass').value = p.mass; }
-    updateControlValues();
-  }catch(e){}
-})();
-
-/* =============
-   Tiny performance: object pooling already, rAF single loop
-   ============= */
-
-/* =============
-   End of file
-   ============= */
-</script>
+    // Keyboard accessibility for gallery images (open in new tab)
+    document.querySelectorAll('.gallery img').forEach(img=>{
+      img.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') window.open(img.src, '_blank') });
+      img.addEventListener('click', ()=> window.open(img.src, '_blank'));
+    });
+  </script>
 </body>
 </html>

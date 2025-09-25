@@ -1,196 +1,137 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title> Muhamad Fathir Akbarussalam — Art Magazine Experiments (Bright) </title>
-<style>
-  :root{
-    --bg:#0f0014; --paper:linear-gradient(180deg,#fffcf0,#fff8ff); --ink:#081018; --muted:#222; 
-    /* ginjreng palette */
-    --neon1:#ff3d81; --neon2:#ffb703; --neon3:#00f5d4; --neon4:#7c4dff; --neon5:#00b4d8;
-    --serif: 'Georgia',serif; --sans: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial;
-    --gap:20px; --columns:12;
-  }
-  @media (prefers-color-scheme:dark){:root{--bg:#050006;--ink:#f7f7fb;--muted:#cfcfe1}}
-  html,body{height:100%;margin:0;background:radial-gradient(1200px 600px at 10% 10%, rgba(124,77,255,0.12), transparent), var(--bg);color:var(--ink);font-family:var(--sans);}
-  a.skip{position:absolute;left:-999px}
-  a.skip:focus{left:1rem;top:1rem;position:fixed;background:#111;color:#fff;padding:.5rem;border-radius:6px}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Muhamad Fathir Akbarussalam</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
 
-  .wrap{max-width:1200px;margin:28px auto;padding:28px;display:grid;grid-template-columns:repeat(var(--columns),1fr);gap:var(--gap)}
+    body {
+      background: #121212;
+      color: #f5f5f5;
+      line-height: 1.6;
+    }
 
-  /* Cover — bold ginjreng */
-  header.cover{grid-column:1/-1;display:grid;grid-template-columns:repeat(12,1fr);gap:12px;padding:36px;border-radius:12px;background:linear-gradient(135deg, rgba(255,61,129,0.10), rgba(0,181,216,0.06));box-shadow:0 10px 30px rgba(0,0,0,0.28)}
-  .cover .title{grid-column:1/7;font-family:var(--serif);font-size:clamp(30px,6vw,64px);line-height:0.95;color:var(--neon4);text-shadow:0 2px 8px rgba(124,77,255,0.25)}
-  .cover .strap{grid-column:1/7;color:var(--neon2);font-weight:700;margin-top:6px}
-  .cover .herobox{grid-column:7/13;background:linear-gradient(135deg,var(--neon3),var(--neon5));border-radius:12px;display:flex;align-items:center;justify-content:center;color:#021;min-height:140px;font-weight:700}
+    header {
+      background: #1f1f1f;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    }
 
-  /* Feature */
-  article.feature{grid-column:1/8;background:rgba(255,255,255,0.02);padding:22px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);backdrop-filter:blur(4px)}
-  article.feature h2{font-family:var(--serif);color:var(--neon1);margin:0 0 8px}
-  article.feature p{color:var(--muted);line-height:1.6}
+    header h1 {
+      font-size: 2.2rem;
+      margin-bottom: 5px;
+      color: #00ffd5;
+    }
 
-  /* Sidebar */
-  aside.side{grid-column:8/13;display:flex;flex-direction:column;gap:14px}
+    nav a {
+      color: #ccc;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 500;
+    }
 
-  /* Motion Studies — vivid canvas */
-  .motion{grid-column:1/13;padding:14px;border-radius:10px;background:linear-gradient(180deg, rgba(0,0,0,0.04), transparent)}
-  .canvas-wrap{height:360px;border-radius:10px;overflow:hidden;background:linear-gradient(180deg, rgba(255,183,3,0.04), rgba(124,77,255,0.02));box-shadow:inset 0 0 40px rgba(124,77,255,0.06)}
-  canvas{display:block;width:100%;height:100%}
-  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
-  .control{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
-  .btn{background:linear-gradient(90deg,var(--neon1),var(--neon4));color:white;border:0;padding:8px 12px;border-radius:8px;cursor:pointer}
+    nav a:hover {
+      color: #00ffd5;
+    }
 
-  /* Insets */
-  .insets{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.03));padding:12px;border-radius:10px;min-height:120px}
-  .thumb{height:84px;border-radius:8px;background:linear-gradient(45deg,var(--neon1),var(--neon3));display:flex;align-items:center;justify-content:center;color:#021;font-weight:700}
+    section {
+      padding: 60px 20px;
+      max-width: 800px;
+      margin: auto;
+    }
 
-  /* Code snippet */
-  pre{background:#071230;color:#eaf6ff;padding:12px;border-radius:8px;overflow:auto;font-family:Menlo,monospace}
-  .copy{position:relative;margin-top:8px}
+    #hero {
+      text-align: center;
+    }
 
-  /* Night typographic */
-  .night{filter:invert(0.02) hue-rotate(10deg)}
+    #hero h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
 
-  /* overlays */
-  .geometry{position:fixed;inset:0;pointer-events:none;opacity:0;transition:opacity .2s}
-  .geometry.visible{opacity:0.9}
-  .baseline{position:fixed;inset:0;pointer-events:none;background-size:100% 20px;opacity:0;transition:opacity .2s}
-  .baseline.visible{opacity:0.9}
+    #hero p {
+      font-size: 1.1rem;
+      color: #ccc;
+    }
 
-  footer{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;padding:12px}
-  .dot{width:12px;height:12px;border-radius:50%;background:var(--neon2);cursor:pointer}
+    #about {
+      background: #1a1a1a;
+      border-radius: 8px;
+      padding: 40px 20px;
+      margin-top: 40px;
+    }
 
-  @media (max-width:800px){
-    .cover{grid-template-columns:1fr}
-    article.feature{grid-column:1/13}
-    aside.side{grid-column:1/13}
-    .insets{grid-template-columns:1fr}
-  }
-</style>
+    #contact {
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #1f1f1f;
+      color: #999;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.6rem;
+      }
+
+      nav a {
+        display: block;
+        margin: 10px 0;
+      }
+    }
+  </style>
 </head>
 <body>
-  <a href="#main" class="skip">Skip to content</a>
-  <div class="wrap" id="app">
 
-    <header class="cover parallax" role="banner" aria-label="Bright cover">
-      <div class="layer" data-speed="0.9">
-        <h1 class="title">Muhamad Fathir Akbarussalam</h1>
-        <div class="strap">art • code • play</div>
-      </div>
-      <div class="layer" data-speed="0.5">
-        <div class="herobox" aria-hidden="true">Slot "Masukkan Ilustrasi Nanti"</div>
-      </div>
-    </header>
+  <header>
+    <h1>Muhamad Fathir Akbarussalam</h1>
+    <nav>
+      <a href="#hero">Beranda</a>
+      <a href="#about">Tentang Saya</a>
+      <a href="#contact">Kontak</a>
+    </nav>
+  </header>
 
-    <article class="feature" id="main" tabindex="0">
-      <h2>Design & Play — A short essay</h2>
-      <p>Placeholder: warna ginjreng mengajak mata untuk tetap terjaga — sebuah eksperimen editorial yang menggabungkan ketajaman visual dengan ritme permainan. Teks ini berfungsi sebagai ruang percobaan, menguji bagaimana palet kuat memengaruhi pembacaan dan fokus.</p>
-    </article>
+<section id="hero">
+  <img src="foto-fathir.jpeg" alt="Foto Muhamad Fathir Akbarussalam" style="width:150px; height:150px; border-radius:50%; margin-bottom: 20px;">
+  <h2>Selamat datang di profil saya!</h2>
+  <p>Saya adalah seorang individu yang antusias dalam dunia teknologi, desain, dan pengembangan diri.</p>
+</section>
 
-    <aside class="side" aria-label="Sidebar">
-      <section class="insets" aria-label="Anime Insets">
-        <div class="card" role="article">
-          <div class="thumb">Image A</div>
-          <div class="caption">Inset A — referensi warna & mood.</div>
-        </div>
-        <div class="card" role="article">
-          <div class="thumb">Image B</div>
-          <div class="caption">Inset B — referensi warna & motion.</div>
-        </div>
-        <div class="card" role="article">
-          <div class="thumb">Image C</div>
-          <div class="caption">Inset C — referensi komposisi.</div>
-        </div>
-      </section>
 
-      <section aria-label="Code snippets">
-        <strong>Code Snippets</strong>
-        <pre id="snippet">&lt;canvas id="pmc" width="1200" height="600"&gt;&lt;/canvas&gt; // Bright motion canvas</pre>
-        <button class="btn copy" id="copyBtn">Copy</button>
-      </section>
-    </aside>
+  <section id="about">
+    <h2>Tentang Saya</h2>
+    <p>
+      Halo! Saya Muhamad Fathir Akbarussalam. Saya memiliki ketertarikan besar dalam bidang teknologi informasi, desain antarmuka, dan pengembangan perangkat lunak.
+      Saya percaya bahwa pembelajaran tidak pernah berhenti, dan saya terus berusaha meningkatkan keterampilan saya setiap hari.
+    </p>
+    <p>
+      Dalam waktu luang, saya suka mengeksplorasi hal-hal baru, membuat proyek kecil, dan membaca tentang inovasi terbaru di dunia digital.
+    </p>
+  </section>
 
-    <section class="motion" aria-label="Motion Studies">
-      <h3>Motion Studies — Tangent · Orbit · Easing</h3>
-      <div class="canvas-wrap">
-        <canvas id="pmc" width="1200" height="600" role="img" aria-label="Motion studies canvas"></canvas>
-      </div>
-      <div class="controls" role="toolbar" aria-label="Motion controls">
-        <label class="control">Gravity <input type="range" id="gravity" min="0" max="3" step="0.01" value="0.4"></label>
-        <label class="control">Drag <input type="range" id="drag" min="0" max="0.6" step="0.01" value="0.03"></label>
-        <label class="control">Count <input type="range" id="count" min="1" max="120" step="1" value="36"></label>
-        <button class="btn" id="randomPalette">Randomize Pallet</button>
-        <button class="btn" id="spawn">Spawn</button>
-      </div>
-    </section>
+  <section id="contact">
+    <h2>Hubungi Saya</h2>
+    <p>Email: fathir@example.com</p>
+    <p>LinkedIn: <a href="https://linkedin.com/in/fathir-akbar" target="_blank" style="color:#00ffd5;">linkedin.com/in/fathir-akbar</a></p>
+  </section>
 
-    <footer>
-      <small>© 2025 — Bright Edition</small>
-      <div style="display:flex;gap:12px;align-items:center">
-        <button id="night" class="btn" aria-pressed="false">Typographic Night Mode</button>
-        <div class="dot" id="geoDot" title="Geometry Overlay"></div>
-      </div>
-    </footer>
+  <footer>
+    &copy; 2025 Muhamad Fathir Akbarussalam. Semua Hak Dilindungi.
+  </footer>
 
-  </div>
-
-  <div class="geometry" id="geometry" aria-hidden="true"></div>
-  <div class="baseline" id="baseline" aria-hidden="true"></div>
-
-<script>
-  const $ = s => document.querySelector(s);
-  const pmc = document.getElementById('pmc');
-  const ctx = pmc.getContext('2d');
-  const DPR = Math.max(1, devicePixelRatio||1);
-  function resize(){ const r = pmc.getBoundingClientRect(); pmc.width = Math.floor(r.width*DPR); pmc.height = Math.floor(r.height*DPR); ctx.setTransform(DPR,0,0,DPR,0,0);} resize(); window.addEventListener('resize', resize);
-
-  let paletteOptions = [["#ff3d81","#ffb703","#00f5d4","#7c4dff"],["#ff6b6b","#ffe66d","#66fcf1","#9b5de5"],["#ff00cc","#00e5ff","#fff500","#ff7b00"]];
-  let palette = paletteOptions[0];
-  function randPalette(){ palette = paletteOptions[Math.floor(Math.random()*paletteOptions.length)]; }
-
-  let particles = [];
-  function spawn(n=1, opts={golden:false}){ for(let i=0;i<n;i++){ const r = 4 + Math.random()*20; particles.push({ x: Math.random()*pmc.width/DPR, y: Math.random()*pmc.height/DPR, vx:(Math.random()-0.5)*2, vy:(Math.random()-0.5)*2, r, color: opts.golden? '#ffd700': palette[Math.floor(Math.random()*palette.length)], mass: r*0.05, orbit: Math.random()*140, angle: Math.random()*Math.PI*2 }); }}
-  spawn(parseInt($('#count').value,10));
-
-  let last = performance.now();
-  function animate(now){ const dt = Math.min(32, now-last)/1000; last = now; ctx.clearRect(0,0,pmc.width/DPR,pmc.height/DPR);
-    const g = parseFloat($('#gravity').value); const drag = parseFloat($('#drag').value);
-    for(let p of particles){ const cx = pmc.width/DPR/2, cy = pmc.height/DPR/2; const dx = cx - p.x, dy = cy - p.y; const dist = Math.hypot(dx,dy)+0.1; p.vx += (dx/dist)*g*dt*18/p.mass; p.vy += (dy/dist)*g*dt*18/p.mass; p.vx *= (1-drag); p.vy *= (1-drag); p.angle += 0.6*dt; p.x += p.vx + Math.cos(p.angle)*(p.orbit*0.0006); p.y += p.vy + Math.sin(p.angle)*(p.orbit*0.0006);
-      if(p.x < -60) p.x = pmc.width/DPR+60; if(p.x > pmc.width/DPR+60) p.x = -60; if(p.y < -60) p.y = pmc.height/DPR+60; if(p.y > pmc.height/DPR+60) p.y = -60;
-      // glow
-      ctx.beginPath(); ctx.globalAlpha = 0.12; ctx.fillStyle = p.color; ctx.arc(p.x, p.y, p.r*3,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.globalAlpha = 1; ctx.fillStyle = p.color; ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); }
-    const wanted = parseInt($('#count').value,10); if(particles.length < wanted) spawn(wanted - particles.length); if(particles.length > wanted) particles = particles.slice(0,wanted);
-    requestAnimationFrame(animate);
-  }
-  requestAnimationFrame(animate);
-
-  $('#randomPalette').addEventListener('click', ()=>{ randPalette(); alert('Palet ginjreng dipilih!'); });
-  $('#spawn').addEventListener('click', ()=>spawn(4));
-  $('#copyBtn').addEventListener('click', async ()=>{ try{ await navigator.clipboard.writeText($('#snippet').innerText); $('#copyBtn').innerText='Copied'; setTimeout(()=>$('#copyBtn').innerText='Copy',1000);}catch(e){alert('Tidak dapat menyalin')} });
-
-  $('#night').addEventListener('click', ()=>{ const on = document.body.classList.toggle('night'); $('#night').setAttribute('aria-pressed', on); });
-
-  // Geometry overlay
-  $('#geoDot').addEventListener('click', ()=> document.getElementById('geometry').classList.toggle('visible'));
-  function drawGeo(){ const g = document.getElementById('geometry'); g.innerHTML=''; const c = document.createElement('canvas'); c.width = innerWidth; c.height = innerHeight; g.appendChild(c); const gc = c.getContext('2d'); gc.strokeStyle = 'rgba(255,183,3,0.9)'; gc.lineWidth = 1; gc.beginPath(); gc.moveTo(innerWidth/2,0); gc.lineTo(innerWidth/2,innerHeight); gc.moveTo(0,innerHeight/2); gc.lineTo(innerWidth,innerHeight/2); gc.stroke(); gc.beginPath(); gc.arc(innerWidth/2,innerHeight/2, Math.min(innerWidth,innerHeight)/3,0,Math.PI*2); gc.stroke(); }
-  drawGeo(); window.addEventListener('resize', drawGeo);
-
-  // ARTMODE sequence
-  let seq=''; window.addEventListener('keyup', e=>{ seq += e.key; if(seq.toUpperCase().includes('ARTMODE')){ document.body.classList.toggle('duo'); if(document.body.classList.contains('duo')) document.body.style.filter = 'grayscale(.08) saturate(1.5) contrast(1.05)'; else document.body.style.filter=''; seq=''; } if(seq.length>20) seq=''; });
-
-  // Golden ball: G + click
-  let gPressed=false; window.addEventListener('keydown', e=>{ if(e.key.toLowerCase()==='g') gPressed=true; }); window.addEventListener('keyup', e=>{ if(e.key.toLowerCase()==='g') gPressed=false; }); pmc.addEventListener('click', ev=>{ if(gPressed){ const rect = pmc.getBoundingClientRect(); const x = ev.clientX - rect.left; const y = ev.clientY - rect.top; spawn(1,{golden:true}); particles[particles.length-1].x = x; particles[particles.length-1].y = y; } });
-
-  // Alt hold -> baseline
-  let altT; window.addEventListener('keydown', e=>{ if(e.altKey) altT = setTimeout(()=>document.getElementById('baseline').classList.add('visible'),2000)}); window.addEventListener('keyup', e=>{ clearTimeout(altT); document.getElementById('baseline').classList.remove('visible')});
-
-  // prefers-reduced-motion
-  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches){ // simplify
-    particles = []; cancelAnimationFrame(animate);
-  }
-
-</script>
 </body>
 </html>

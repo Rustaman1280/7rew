@@ -686,7 +686,7 @@
     const dEl=document.getElementById('t-display');
     const minEl=document.getElementById('t-min');
     const secEl=document.getElementById('t-sec');
-    let remain=30, itv=null;
+    let remain=30, itv=null, deadline=0;
     function show(){
       dEl.textContent = fmt(Math.floor(remain/60))+":"+fmt(remain%60);
     }
@@ -703,8 +703,11 @@
       if(itv) return;
       remain = Number(minEl.value||0)*60 + Number(secEl.value||0);
       if(remain<=0) remain=1; show();
+      // Background tabs can delay interval callbacks; measure elapsed time, not ticks.
+      deadline=performance.now()+remain*1000;
       itv=setInterval(()=>{
-        remain--; show(); if(remain<=0){clearInterval(itv); itv=null; bell();}
+        remain=Math.max(0, Math.ceil((deadline-performance.now())/1000)); show();
+        if(remain<=0){clearInterval(itv); itv=null; bell();}
       },1000);
     }
     document.getElementById('t-stop').onclick=()=>{clearInterval(itv); itv=null}
